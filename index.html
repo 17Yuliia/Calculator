@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <title>Calculator</title>
+</head>
+<body class="preload">
+    <div class="wrapper wrapper_size_iphone">
+        <div class="display-block wrapper__diaplay-block">
+            <div class="display-block__text" id="display"></div>
+        </div>
+        <div class="keyboard-block wrapper__keyboard-block">
+            <div class="row keyboard-block__row">
+                <button class="button keyboard-block__button button_text button_color_lightgray button_doublewidth">C</button>
+                <button class="button keyboard-block__button button_text button_color_lightgray">%</button>
+                <button class="button keyboard-block__button button_text button_color_orange">÷</button>
+            </div> 
+            <div class="row keyboard-block__row"> 
+                <button class="button keyboard-block__button button_text button_color_darkgray">7</button>
+                <button class="button keyboard-block__button button_text button_color_darkgray">8</button>
+                <button class="button keyboard-block__button button_text button_color_darkgray">9</button>
+                <button class="button keyboard-block__button button_text button_color_orange">×</button>
+            </div> 
+            <div class="row keyboard-block__row"> 
+                <button class="button keyboard-block__button button_text button_color_darkgray">4</button>
+                <button class="button keyboard-block__button button_text button_color_darkgray">5</button>
+                <button class="button keyboard-block__button button_text button_color_darkgray">6</button>
+                <button class="button keyboard-block__button button_text button_color_orange">-</button>
+            </div> 
+            <div class="row keyboard-block__row"> 
+                <button class="button keyboard-block__button button_text button_color_darkgray">1</button>
+                <button class="button keyboard-block__button button_text button_color_darkgray">2</button>
+                <button class="button keyboard-block__button button_text button_color_darkgray">3</button>
+                <button class="button keyboard-block__button button_text button_color_orange">+</button>
+            </div> 
+            <div class="row keyboard-block__row"> 
+                <button class="button keyboard-block__button button_text button_color_darkgray button_doublewidth">0</button>
+                <button class="button keyboard-block__button button_text button_color_darkgray">,</button>
+                <button class="button keyboard-block__button button_text button_color_orange">=</button>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="./calculator.js"></script> 
+<script src="./calculator_logic.js"></script>
+</html>

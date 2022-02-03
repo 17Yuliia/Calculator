@@ -1,0 +1,147 @@
+body {
+    background-color: #8bcebd;
+    color: white;
+    font-family: 'Inter', sans-serif;
+    background-image: url('./iphone.png');
+    background-size: 580px;
+    background-repeat: no-repeat;
+    background-position: center 10px;
+    padding-top: 34px;
+    height: 100vh;
+    box-sizing: border-box;
+    margin: 0;
+}
+
+.preload *{
+    transition: none !important;
+}
+
+.wrapper {
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+}
+
+.wrapper_size_iphone {
+    margin: auto;
+    width: 380px;
+    height: 800px;
+    padding: 50px 20px;
+    box-sizing: border-box;
+    border-radius: 40px;
+}
+
+.display-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.wrapper__diaplay-block {
+    width: 340px;
+    height: 255px;
+    padding: 10px 0px;
+    box-sizing: border-box;
+}
+
+.keyboard-block {
+    display: flex;
+    flex-direction: column;
+}
+
+.wrapper__keyboard-block {
+    width: 340px;
+    height: 445px;
+    padding: 10px 0px;
+    box-sizing: border-box;
+}
+
+.display-block__text {
+    font-size: 50px;
+    padding-right: 20px;
+    box-sizing: border-box;
+    width: 300px;
+    overflow-wrap: break-word;
+    text-align: right;
+}
+
+.wrapper-button_block {
+    height: 425px;
+    width: 340px;
+    margin: 0px 20px 70px;
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;    
+}
+
+.keyboard-block__row {
+    width: 100%;
+    height: 85px;    
+}
+
+.button {
+    outline: none;
+    border: none;
+    transition: 1s;
+}
+
+.button_text {
+    line-height: 80px;
+    font-size: 37px;
+    text-align: center;
+}
+
+.keyboard-block__button {
+    width: 75px;
+    height: 75px;
+    margin: 5px;
+    border-radius: 40px;
+}
+
+.button:hover {
+    cursor: default;
+}
+
+.button_color_lightgray {
+    background-color: #b7b7b7;
+    color: black;
+}
+
+.button_color_lightgray:active {
+    background-color: #f9f9f9;
+    transition: 0s;
+}
+
+.button_color_darkgray {
+    background-color: #353535;
+    color: white;
+}
+
+.button_color_darkgray:active {
+    background-color: #676767;
+    transition: 0s;
+}
+
+.button_color_orange {
+    background-color: #ffa200;
+    color: white;
+}
+
+.button_color_orange:focus {
+    background-color: white;
+    color: #ffa200;
+}
+
+.button_doublewidth {
+    width: 160px;
+    text-align: left;
+    padding-left: 31px;
+}
+
+.bold {
+    font-weight: bold;
+}
