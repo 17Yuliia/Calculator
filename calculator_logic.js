@@ -1,13 +1,15 @@
 document.body.classList.remove('preload');
 const display = document.getElementById('display');
+const displayText = Array.from(document.getElementsByClassName('display-block__text'))[0];
+console.log(displayText);
 
 let calculator = new Calculator();
 
 function addSymbol(value) {
-    console.log('value', value);
-    calculator.AddSymbol(value);
+    calculator.ValidateInput(value);
     const input = calculator.GetInput();
     ShowOnDisplay(input);
+    displayText.scrollTop = displayText.scrollHeight;
 }
 
 function ShowOnDisplay(text) {
@@ -15,8 +17,12 @@ function ShowOnDisplay(text) {
 }
 
 function clearDisplay() {
-    display.textContent = '';
+    display.textContent = '0';
     calculator.ClearInput();
+}
+
+function calculateResult() {
+    calculator.calculateResult();
 }
 
 function init() {
@@ -27,6 +33,7 @@ function init() {
     cancelButton.onclick = clearDisplay;
 
     const resultButton = buttonsArray.pop();
+    resultButton.onclick = calculateResult;
 
     const printedButtons = buttonsArray;
     printedButtons.forEach(btn => {
