@@ -74,7 +74,7 @@ body {
 
 .display-block__input {
     font-size: 50px;
-    padding: 0px 10px;
+    padding: 0px 20px;
     box-sizing: border-box;
     width: 340px;
     text-align: right;
@@ -82,7 +82,7 @@ body {
 
 .display-block__history {
     font-size: 25px;
-    padding: 0px 10px;
+    padding: 0px 20px;
     box-sizing: border-box;
     width: 340px;
     overflow-wrap: break-word;
