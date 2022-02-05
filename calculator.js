@@ -1,64 +1,105 @@
 class Calculator {
     constructor(){
         this.input = '0';
+        this.history = '';
+        this.isNewNumber = true;
     };
 
-    Append(symbol) {
+    AppendToInput(symbol) {
         this.input += symbol;
     }
 
-    ReplaceLast(symbol) {
-        this.input = this.input.slice(0,-1) + symbol;
+    AppendToHistory(number) {
+        this.history += number;
     }
 
-    getInputNumbers(symbol) {
-        const spliters = /[+\-%×÷]/g
-        const numbersArray = (this.input + symbol).split(spliters);
+    ReplaceLastInHistory(symbol) {
+        this.history = this.history.slice(0,-1) + symbol;
+    }
+
+    RemoveLastFromInput() {
+        this.input = this.input.slice(0, -1);
+    }
+
+    // getInputNumbers(symbol) {
+    //     const spliters = /[+\-%×÷]/g
+    //     const numbersArray = (this.input + symbol).split(spliters);
         
-        return numbersArray;
+    //     return numbersArray;
+    // }
+
+    AddNumber(number) {
+        if(this.isNewNumber) {
+            this.input = number;
+            this.isNewNumber = false;
+
+            return;
+        }
+
+        if(this.input.length > 8) {
+            return;
+        }
+        
+        this.input !== '0' && this.AppendToInput(number);
     }
 
-    ValidateInput(symbol) {
-        const isNaNSymbol = isNaN(symbol);
+    AddOperation(operation) {
+        if(this.isNewNumber) {
+            if(this.history === '') {
+                this.AppendToHistory('0' + operation);
+                return;
+            }
+            
+            this.ReplaceLastInHistory(operation);
 
-        if(this.input == '0') {
-            isNaNSymbol ? this.Append(symbol) : this.ReplaceLast(symbol);
+            return;
+        }
+        
+        this.isNewNumber = true;
+        const lastSymbol = this.input.slice(-1);
+        const newNumber = lastSymbol === ',' ? this.input.slice(0,-1) : this.input;
+        this.AppendToHistory(newNumber + operation);
+    }
+
+    AddComma() {
+        if(this.isNewNumber) {
+            this.isNewNumber = false;
+            this.input = '0,';
         }
         else {
-            const lastSymbol = this.input.slice(-1);
-            const isNaNLastSymbol = isNaN(lastSymbol);
-            const inputNumbers = this.getInputNumbers(symbol);
-
-            if(symbol == ',' && isNaNLastSymbol){
-                this.Append('0'+symbol);
-                return;
+            if(!this.input.includes(',')){
+                this.AppendToInput(',');
             }
-
-            const lastNumber = inputNumbers.slice(-1)[0].slice(0, -1);
-
-            if((symbol == ',' && lastNumber.includes(',')) ||
-                (symbol == '0' && lastNumber == '0')
-            ){ 
-                return;
-            }
-
-            if((lastNumber == '0' && !isNaNSymbol) ||
-                (isNaNSymbol && isNaNLastSymbol)
-            ){
-                this.ReplaceLast(symbol);
-                return;
-            }
-
-            this.Append(symbol);                
         }
+    }
+
+    DeleteLastSymbol() {
+        if(this.input.length > 1) {
+            this.RemoveLastFromInput();
+
+            if(this.input === '0') {
+                this.isNewNumber = true;
+            }
+
+            return;
+        }            
+
+        this.input = '0';
+        this.isNewNumber = true;
     }
 
     GetInput() {
         return this.input;
     }
 
-    ClearInput() {
+    GetHistoty() {
+        return this.history;
+    }
+
+    ClearDisplay() {
         this.input = '0';
+        this.history = '';
+        this.isNewNumber = true;
     }
 
     CalcResult() {

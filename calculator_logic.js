@@ -1,48 +1,89 @@
-document.body.classList.remove('preload');
-const display = document.getElementById('display');
-const displayText = Array.from(document.getElementsByClassName('display-block__text'))[0];
-console.log(displayText);
+const displayInput = document.getElementById('input');
+const displayHistory = document.getElementById('history');
 
-let calculator = new Calculator();
+const calculator = new Calculator();
 
-function addSymbol(value) {
-    calculator.ValidateInput(value);
-    const input = calculator.GetInput();
-    ShowOnDisplay(input);
-    displayText.scrollTop = displayText.scrollHeight;
+// functions for handling different clicks
+function addNumber(value) {
+    calculator.AddNumber(value);
+    ShowOnDisplay();
 }
 
-function ShowOnDisplay(text) {
-    display.textContent = text;
+function addComma() {
+    calculator.AddComma();
+    ShowOnDisplay();
+}
+
+function addOperation(value) {
+    calculator.AddOperation(value);
+    displayHistory.scrollTop = displayHistory.scrollHeight;
+    ShowOnDisplay();
 }
 
 function clearDisplay() {
-    display.textContent = '0';
-    calculator.ClearInput();
+    calculator.ClearDisplay();
+    ShowOnDisplay();
+}
+
+function deleteLastSymbol() {
+    calculator.DeleteLastSymbol();
+    ShowOnDisplay();
 }
 
 function calculateResult() {
     calculator.calculateResult();
 }
 
-function init() {
-    const buttonsCollection = document.getElementsByClassName('button');
-    const buttonsArray = Array.from(buttonsCollection);
+function ShowOnDisplay() {
+    const input = calculator.GetInput();
+    const history = calculator.GetHistoty();
 
-    const cancelButton = buttonsArray.shift();
+    displayInput.textContent = input;
+    displayHistory.textContent = history;
+}
+
+function getElementsByOption(optionValue) {
+    const elements = Array.from(document.querySelectorAll(`[option=${optionValue}]`));
+    return elements;
+}
+
+function init() {
+    document.body.classList.remove('preload');
+    // ctrl-z TO DO
+
+    // cancel btn
+    const cancelButton = getElementsByOption('cancel')[0];
     cancelButton.onclick = clearDisplay;
 
-    const resultButton = buttonsArray.pop();
+    // ,
+    const comaButton =  getElementsByOption('coma')[0];
+    comaButton.onclick = addComma;
+
+    // =
+    const resultButton =  getElementsByOption('result')[0];
     resultButton.onclick = calculateResult;
 
-    const printedButtons = buttonsArray;
-    printedButtons.forEach(btn => {
+    // <=
+    const backspaceButton = getElementsByOption('backspace')[0];
+    backspaceButton.onclick = deleteLastSymbol;
+
+    // numbers
+    const numberButtons = getElementsByOption('number');
+    numberButtons.forEach(btn => {
         const value = btn.textContent;
         btn.onclick = () => {
-            return addSymbol(value);
+            return addNumber(value);
         }
     })
 
+    //operators
+    const operatorButtons = getElementsByOption('operator');
+    operatorButtons.forEach(btn => {
+        const value = btn.textContent;
+        btn.onclick = () => {
+            return addOperation(value);
+        }
+    })
 }
 
 init();
