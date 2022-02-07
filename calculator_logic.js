@@ -31,7 +31,8 @@ function deleteLastSymbol() {
 }
 
 function calculateResult() {
-    calculator.calculateResult();
+    calculator.CalcResult();
+    ShowOnDisplay();
 }
 
 function ShowOnDisplay() {
