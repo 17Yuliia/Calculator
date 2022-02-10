@@ -1,4 +1,5 @@
 class Calculator {
+    
     constructor(){
         this.input = '0';
         this.history = '';
@@ -23,6 +24,9 @@ class Calculator {
     }
 
     ValidateInputNumber() {
+        if (this.input === 'Error') {
+            return 0;
+        }
         const lastSymbol = this.input.slice(-1);
         const number = lastSymbol === '.' ? this.input.slice(0,-1) : this.input;
 
@@ -33,12 +37,13 @@ class Calculator {
         if(this.isAfterResult) {
             this.input = number;
             this.history = '';
+            this.isNewNumber = false;
             this.isAfterResult = false;
 
             return;
         }
 
-        if(this.isNewNumber || this.isAfterResult) {
+        if(this.isNewNumber) {
             this.input = number;
             this.isNewNumber = false;
 
@@ -76,11 +81,16 @@ class Calculator {
     }
 
     AddComma() {
+        if(this.input.length > 8) {
+            return;
+        }
+
         if(this.isAfterResult) {
             this.isAfterResult = false;
             this.input = '0.';
             this.history = '';
         }
+
         if(this.isNewNumber) {
             this.isNewNumber = false;
             this.input = '0.';
@@ -124,100 +134,99 @@ class Calculator {
     CalcResult() {
         this.AppendToHistory(this.ValidateInputNumber());
 
+        const regFirst = /[÷×%]/;
+        const regSecond = /[+\-]/;
+
         const splitedHistory = this.history.split(/([\+\-\÷\×\%])/);
         const historyArray = splitedHistory.map(n => isNaN(n) ? n : parseFloat(n));
-        
-        const firstPriorityResult = this.CalculateFirstPriority(historyArray);
 
-        const totalResult = this.CalculateSecondPriority(firstPriorityResult)[0];
+        const firstResult = this.CalculateByPriority(historyArray, regFirst);
+
+        const _if = Array.isArray(firstResult);
+        console.log(_if);
+
+        const totalResult = Array.isArray(firstResult) ? this.CalculateByPriority(firstResult, regSecond) : firstResult;
 
         this.input = totalResult.toString();    
+        // this.input = totalResult.toString().slice(0, 9);    
         this.isAfterResult = true;    
     }
 
-    CalculateFirstPriority(array) {
-        array.forEach((i, index) => {
-            let operation = false;
-            
-            switch(i){
-                case('%'): {
-                    operation = this.Percent;
-                    break;
-                }
-                case('×'): {
-                    operation = this.Multiply;
-                    break;
-                }
-                case('÷'):{
-                    operation = this.Divide;
-                    break;
-                }
+    getOperation(sign) {
+        switch(sign){
+            case('%'): {
+                return this.Percent;
             }
-
-            if(operation) {
-                array[index] = operation(array[index-1], array[index+1]);
-                delete array[index-1];
-                delete array[index+1];
-                array = array.filter(n => n);
-
-                if(array.length === 1) {
-                    return array[0];
-                }
-                array = this.CalculateFirstPriority(array);
-            }   
-        }) 
-        
-        return array;        
+            case('×'): {
+                return this.Multiply;
+            }
+            case('÷'): {
+                return this.Divide;
+            }
+            case('-'): {
+                return this.Minus;
+            }
+            case('+'): {
+                return this.Plus;
+            }
+        }
+    
+        return false;
     }
 
-    CalculateSecondPriority(array) {
-        array.forEach((i, index) => {
-            let operation = false;
-            
-            switch(i){
-                case('+'): {
-                    operation = this.Plus;
-                    break;
-                }
-                case('-'): {
-                    operation = this.Minus;
-                    break;
-                }
-            }
+    CalculateByPriority(array, reg) {    
+        const operations = array.join('').match(reg);
 
-            if(operation) {
-                array[index] = operation(array[index-1], array[index+1]);
-                delete array[index-1];
-                delete array[index+1];
-                array = array.filter(n => n);
+        if(!operations) {
+            return array;  
+        }
 
-                if(array.length === 1) {
-                    return array[0];
-                }
-                array = this.CalculateSecondPriority(array);
-            }   
-        })  
+        const index = array.indexOf(operations[0]);
+        const operation = this.getOperation(operations[0]);
+        const val = operation(array[index-1], array[index+1]);
 
-        return array;        
+        if(val === 'Error') {
+            return val;
+        }
+
+        array[index] = val;
+        array[index-1] = null;
+        array[index+1] = null;
+        array = array.filter(n => n !== null);
+
+        if(array.length === 1) {
+            return val;
+        }
+
+        return this.CalculateByPriority(array, reg);      
     }
 
     Plus(x, y) {
-        return x + y;
+        return (x * ten + y * ten) / ten;
     }
 
     Minus(x, y) {
-        return x - y;
+        if(isNaN(x)) {
+            x = 0;
+        }
+        return (x * ten - y * ten) / ten;
     }
 
     Multiply(x, y) {
-        return x * y;
+        return ((x * ten) * (y * ten)) / (ten * ten);
     }
 
     Divide(x, y) {
-        return x / y;
+        if(y === 0) {
+            return 'Error';
+        }
+
+        return ((x * ten) / (y * ten));
     }
 
     Percent(x, y) {
-        return x * y * 0.01;
+        return ((x * ten) * (y * ten)) * 0.01 / (ten * ten);
     }
 }
+
+const ten = 10000000;
