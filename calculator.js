@@ -2,7 +2,7 @@ class Calculator {
     
     constructor(){
         this.input = '0';
-        this.history = '';
+        this.history = [];
         this.isNewNumber = true;
         this.isAfterResult = false;
     };
@@ -12,11 +12,12 @@ class Calculator {
     }
 
     AppendToHistory(number) {
-        this.history += number;
+        this.history.push(number);
     }
 
     ReplaceLastInHistory(symbol) {
-        this.history = this.history.slice(0,-1) + symbol;
+        this.history.pop();
+        this.history.push(symbol);
     }
 
     RemoveLastFromInput() {
@@ -36,7 +37,7 @@ class Calculator {
     AddNumber(number) {
         if(this.isAfterResult) {
             this.input = number;
-            this.history = '';
+            this.history = [];
             this.isNewNumber = false;
             this.isAfterResult = false;
 
@@ -59,13 +60,14 @@ class Calculator {
 
     AddOperation(operation) {
         if(this.isAfterResult) {
-            this.history = '';
+            this.history = [];
             this.isAfterResult = false;
         }
 
         if(this.isNewNumber) {
-            if(this.history === '') {
-                this.AppendToHistory('0' + operation);
+            if(this.history === []) {
+                this.AppendToHistory(0);
+                this.AppendToHistory(operation);
                 return;
             }
             
@@ -77,18 +79,19 @@ class Calculator {
         this.isNewNumber = true;
         const number = this.ValidateInputNumber();
         this.input = '0';
-        this.AppendToHistory(number + operation);
+        this.AppendToHistory(Number(number));
+        this.AppendToHistory(operation);
     }
 
     AddComma() {
-        if(this.input.length > 8) {
-            return;
-        }
-
         if(this.isAfterResult) {
             this.isAfterResult = false;
             this.input = '0.';
-            this.history = '';
+            this.history = [];
+        }
+
+        if(this.input.length > 8) {
+            return;
         }
 
         if(this.isNewNumber) {
@@ -103,6 +106,11 @@ class Calculator {
     }
 
     DeleteLastSymbol() {
+        if(this.isAfterResult) {
+            this.isAfterResult = false;
+            clearDisplay();
+        }
+
         if(this.input.length > 1) {
             this.RemoveLastFromInput();
 
@@ -127,29 +135,31 @@ class Calculator {
 
     ClearDisplay() {
         this.input = '0';
-        this.history = '';
+        this.history = [];
         this.isNewNumber = true;
     }
 
+    
+
     CalcResult() {
-        this.AppendToHistory(this.ValidateInputNumber());
+        if (this.isAfterResult) {
+            return this.input;
+        }
+
+        this.AppendToHistory(Number(this.ValidateInputNumber()));
 
         const regFirst = /[÷×%]/;
         const regSecond = /[+\-]/;
+        const array = [...this.history];
 
-        const splitedHistory = this.history.split(/([\+\-\÷\×\%])/);
-        const historyArray = splitedHistory.map(n => isNaN(n) ? n : parseFloat(n));
-
-        const firstResult = this.CalculateByPriority(historyArray, regFirst);
-
-        const _if = Array.isArray(firstResult);
-        console.log(_if);
-
+        const firstResult = this.CalculateByPriority(array, regFirst);
         const totalResult = Array.isArray(firstResult) ? this.CalculateByPriority(firstResult, regSecond) : firstResult;
 
         this.input = totalResult.toString();    
-        // this.input = totalResult.toString().slice(0, 9);    
+           
         this.isAfterResult = true;    
+
+        return totalResult;
     }
 
     getOperation(sign) {

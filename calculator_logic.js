@@ -31,17 +31,91 @@ function deleteLastSymbol() {
 }
 
 function calculateResult() {
-    calculator.CalcResult();
-    ShowOnDisplay();
+    const result = calculator.CalcResult();
+    const uiResult = validateResult(result);
+    ShowOnDisplay(uiResult);
 }
 
-function ShowOnDisplay() {
-    const input = calculator.GetInput();
+function validateResult(result) {
+    if(isNaN(result)) {
+        return result;
+    }
+
+    return roundResult(Number(result));
+}
+
+function roundResult(value) {
+    // too big or too small number
+    if(Math.abs(value) > 999999999 || Math.abs(value) < 0.0000001) {
+        const expValue = value.toExponential(3).toString();
+        return expValue;
+    }
+
+    //float number must be rounded if it has more then 9 symbols
+    const strValue = value.toString();
+    const idx = strValue.indexOf('.');
+    
+    if(idx > 0 && idx <= 9) {
+        const pow = Math.pow(10, 9 - idx);
+        const roundedResult = Math.round(value * pow) / pow;
+        return roundedResult;
+    }
+
+    return value;
+}
+
+function ShowOnDisplay(input = calculator.GetInput()) {
     const history = calculator.GetHistoty();
 
     displayInput.textContent = input;
-    displayHistory.textContent = history;
+    displayHistory.textContent = history.join('');
 }
+
+// keyboard
+
+function hadleKeyDown(key) {
+    const input = validateKey(key);
+
+    if(input >= 0 && input <= 9) {
+        addNumber(input);
+    }
+
+    if(input === '+' || input === '-' || input === '%' || input === '÷' || input === '×') {
+        addOperation(input);
+    }
+
+    if(input === '.' || input === ',') {
+        addComma();
+    }
+
+    if(input === 'Backspace') {
+        deleteLastSymbol();
+    }
+
+    if(input === 'Enter') {
+        calculateResult();
+    }
+
+    if(input === 'Escape') {
+        clearDisplay();
+    }
+}
+
+function validateKey(key) {
+    switch(key) {
+        case '*': {
+            return '×';
+        }
+        case '/':{
+            return '÷';
+        }
+        default: {
+            return key;
+        }
+    }    
+}
+
+// for init
 
 function getElementsByOption(optionValue) {
     const elements = Array.from(document.querySelectorAll(`[option=${optionValue}]`));
@@ -85,6 +159,11 @@ function init() {
             return addOperation(value);
         }
     })
+
+    document.onkeydown = (event) => {
+        event.repeat = false;
+        return hadleKeyDown(event.key);
+    }
 }
 
 init();
