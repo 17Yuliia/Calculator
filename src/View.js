@@ -92,7 +92,7 @@ class View {
         })
     }
 
-    addKeypressListener(callback) {
+    addKeydownListener(callback) {
         document.addEventListener('keydown', (event) => {
             callback(event.key);
         })

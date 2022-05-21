@@ -12,7 +12,7 @@ class Controller {
     }
 
     addListeners() {
-        this.view.addKeypressListener(this.documentKeypressHandler);
+        this.view.addKeydownListener(this.documentKeydownHandler);
 
         this.view.addListenerForElement(this.view.equal, this.equalButtonHandler);
 
@@ -64,7 +64,7 @@ class Controller {
         this.updateView();
     }
 
-    documentKeypressHandler = (key) => {
+    documentKeydownHandler = (key) => {
         const button = Object.values(BUTTONS).find((btn) => btn.value === key);
 
         if (!button) {
