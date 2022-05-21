@@ -8,22 +8,17 @@ class Controller {
     init() {
         this.view.init(this.model.currentValue, this.model.previousValue);
 
-        this.view.addListenerForElement(this.view.sign, this.signButtonHandler);
-        this.view.addListenerForElement(this.view.equal, this.equalButtonHandler);
-        this.view.addListenerForElement(this.view.cancel, this.cancelButtonHandler);
-        this.view.addListenerForElement(this.view.backspace, this.backspaceButtonHandler);
-
-        this.view.addListenerForElements(this.view.numbers, this.numberButtonsHandler);
-        this.view.addListenerForElements(this.view.operations, this.operationButtonsHandler);
+        this.addListeners();
     }
 
-    signButtonHandler = () => {
-        if (this.model.isEmptyCurrentValue() || this.model.isErrorCurrentValue() || this.model.currentValue === '0') {
-            return;
-        }
+    addListeners() {
+        this.view.addKeypressListener(this.documentKeypressHandler);
 
-        this.model.currentValue *= -1;
-        this.updateView();
+        this.view.addListenerForElement(this.view.equal, this.equalButtonHandler);
+
+        this.view.addListenerForElements(this.view.actions, this.actionButtonsHandler)
+        this.view.addListenerForElements(this.view.numbers, this.numberButtonsHandler);
+        this.view.addListenerForElements(this.view.operations, this.operationButtonsHandler);
     }
 
     equalButtonHandler = () => {
@@ -35,34 +30,58 @@ class Controller {
 
         this.compute();
         this.updateView();
-    }
+    }    
 
-    cancelButtonHandler = () => {
-        this.clearAll();
+    numberButtonsHandler = (number) =>  {
+        this.addNumber(number);
         this.updateView();
     }
 
-    backspaceButtonHandler = () => {
+    actionButtonsHandler = (action) => {
+        switch(action) {
+            case 'Escape': {
+                this.clearAll();
+                break;
+            }
+            case 'Backspace': {
+                this.deleteLast();
+                break;
+            }
+            case 'Sign': {
+                this.changeSign();
+                break;
+            }
+            default: {
+                return;
+            }
+        }
+
+        this.updateView();
+    }
+
+    operationButtonsHandler = (operation) => {
+        this.chooseOperation(operation);
+        this.updateView();
+    }
+
+    documentKeypressHandler = (key) => {
+        //to do
+    }
+
+    deleteLast() {
         if (this.model.isErrorCurrentValue()) {
             this.clearAll();
         }
 
         this.model.removeLastFromCurrentValue();
-        this.updateView();
     }
 
-    numberButtonsHandler = (element) =>  {
-        const number = this.view.getInnerText(element);
+    changeSign() {
+        if (this.model.isEmptyCurrentValue() || this.model.isErrorCurrentValue() || this.model.currentValue === '0') {
+            return;
+        }
 
-        this.addNumber(number);
-        this.updateView();
-    }
-
-    operationButtonsHandler = (element) => {
-        const operation = this.view.getInnerText(element);
-
-        this.chooseOperation(operation);
-        this.updateView();
+        this.model.currentValue *= -1;
     }
 
     addNumber(number) {
@@ -119,16 +138,16 @@ class Controller {
 
     makeOperation() {
         switch (this.model.operation) {
-            case '+': {
+            case OPERATIONS.plus: {
                 return this.calculator.sum();
             }
-            case '−': {
+            case OPERATIONS.minus: {
                 return this.calculator.sub();
             }
-            case '×': {
+            case OPERATIONS.multiply: {
                 return this.calculator.mul();
             }
-            case '÷': {
+            case OPERATIONS.divide: {
                 return this.calculator.div();
             }
             default:
@@ -138,7 +157,8 @@ class Controller {
 
     updateView() {
         const input = this.model.currentValue;
-        const history = `${this.model.previousValue} ${this.model.operation}`;
+        const operation = this.getOperationLabel(this.model.operation);
+        const history = `${this.model.previousValue} ${operation}`;
         
         this.view.setInnerText(this.view.input, input);
         this.view.setInnerText(this.view.history, history);
@@ -148,5 +168,15 @@ class Controller {
         this.model.setInitialCurrentValue();
         this.model.setInitialPreviousValue();
         this.model.operation = '';
+    }
+
+    getOperationLabel(value) {
+        if (!value) {
+            return '';
+        }
+
+        const button = Object.values(BUTTONS).find((btn) => btn.value === value);
+
+        return button.label;
     }
 }
