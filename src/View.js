@@ -64,7 +64,7 @@ class View {
                 this.actions.push(button);
                 break;
             }
-            case OPTIONS.operations: {
+            case OPTIONS.operation: {
                 this.operations.push(button);
                 break;
             }
@@ -93,7 +93,7 @@ class View {
     }
 
     addKeypressListener(callback) {
-        document.addEventListener('keypress', (event) => {
+        document.addEventListener('keydown', (event) => {
             callback(event.key);
         })
     }

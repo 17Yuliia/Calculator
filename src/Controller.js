@@ -38,7 +38,7 @@ class Controller {
     }
 
     actionButtonsHandler = (action) => {
-        switch(action) {
+        switch (action) {
             case 'Escape': {
                 this.clearAll();
                 break;
@@ -65,7 +65,35 @@ class Controller {
     }
 
     documentKeypressHandler = (key) => {
-        //to do
+        const button = Object.values(BUTTONS).find((btn) => btn.value === key);
+
+        if (!button) {
+            return;
+        }
+
+        const keyOption = button.option;
+
+        switch(keyOption) {
+            case OPTIONS.equal: {
+                this.equalButtonHandler();
+                break;
+            }
+            case OPTIONS.number: {
+                this.numberButtonsHandler(key);
+                break;
+            }
+            case OPTIONS.action: {
+                this.actionButtonsHandler(key);
+                break;
+            }
+            case OPTIONS.operation: {
+                this.operationButtonsHandler(key);
+                break;
+            }
+            default: {
+                return;
+            }
+        }
     }
 
     deleteLast() {
