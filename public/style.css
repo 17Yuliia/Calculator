@@ -12,10 +12,6 @@ body {
     margin: 0;
 }
 
-.preload *{
-    transition: none !important;
-}
-
 .wrapper {
     background-color: black;
     display: flex;
@@ -45,21 +41,6 @@ body {
     box-sizing: border-box;
 }
 
-.display-block__history::-webkit-scrollbar {
-  width: 5px;
-  height: 8px;
-}
-
-.display-block__history::-webkit-scrollbar-track {
-  background-color: rgba(0, 0, 0, 0.4);
-  border-radius: 10px;
-}
-
-.display-block__history::-webkit-scrollbar-thumb {
-  background-color: #353535;
-  border-radius: 10px;
-}
-
 .keyboard-block {
     display: flex;
     flex-direction: column;
@@ -76,7 +57,7 @@ body {
 }
 
 .display-block__input {
-    font-size: 45px;
+    font-size: 40px;
     padding: 0px 15px;
     box-sizing: border-box;
     width: 100%;
@@ -91,7 +72,6 @@ body {
     width: 340px;
     overflow-wrap: break-word;
     text-align: right;
-    overflow-y: scroll;
     color: #b7b7b7;
 }
 

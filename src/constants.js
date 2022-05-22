@@ -162,3 +162,14 @@ const ELEMENT_IDS = {
     history: 'history',
     keyboard: 'keyboard',
 }
+
+const SIGNED_VALUES = {
+    '': '-',
+    '-': '',
+    '0': '-0',
+    '-0': '0',
+}
+
+const INPUT_MAX_SIZE = 9;
+const NUMBER_PRECISION = 8;
+const EXPONANTIAL_PRECISION = 6;

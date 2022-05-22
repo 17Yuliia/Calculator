@@ -1,8 +1,13 @@
 class Model {
     constructor() {
+        this.resetValues();
+    }
+
+    resetValues() {
         this.setInitialCurrentValue();
         this.setInitialPreviousValue();
         this.operation = '';
+        this.isAfterResult = false;
     }
 
     setInitialCurrentValue() {

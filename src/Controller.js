@@ -24,15 +24,20 @@ class Controller {
     equalButtonHandler = () => {
         const isEmptyValue = this.model.isEmptyPreviousValue() || this.model.isEmptyCurrentValue();
 
-        if (isEmptyValue || this.model.isErrorCurrentValue()) {
+        if (isEmptyValue || this.model.isErrorCurrentValue() || this.model.isAfterResult) {
             return;
         }
 
+        this.model.isAfterResult = true;
         this.compute();
         this.updateView();
     }    
 
     numberButtonsHandler = (number) =>  {
+        if (this.model.isAfterResult) {
+            this.model.resetValues();
+        }
+
         this.addNumber(number);
         this.updateView();
     }
@@ -40,7 +45,7 @@ class Controller {
     actionButtonsHandler = (action) => {
         switch (action) {
             case 'Escape': {
-                this.clearAll();
+                this.model.resetValues();;
                 break;
             }
             case 'Backspace': {
@@ -60,6 +65,7 @@ class Controller {
     }
 
     operationButtonsHandler = (operation) => {
+        this.model.isAfterResult = false;
         this.chooseOperation(operation);
         this.updateView();
     }
@@ -97,27 +103,39 @@ class Controller {
     }
 
     deleteLast() {
-        if (this.model.isErrorCurrentValue()) {
-            this.clearAll();
+        if (this.model.isErrorCurrentValue() || this.model.isAfterResult) {
+            this.model.resetValues();
         }
 
         this.model.removeLastFromCurrentValue();
     }
 
     changeSign() {
-        if (this.model.isEmptyCurrentValue() || this.model.isErrorCurrentValue() || this.model.currentValue === '0') {
+        if (this.model.isErrorCurrentValue() || this.model.isAfterResult) {
             return;
         }
 
-        this.model.currentValue *= -1;
+        let signedValue = `${this.model.currentValue * -1}`;
+
+        if (this.model.currentValue in SIGNED_VALUES) {
+            signedValue = SIGNED_VALUES[this.model.currentValue];
+        }
+
+        this.model.setCurrentValue(signedValue);
     }
 
     addNumber(number) {
+        if (this.model.currentValue.length === INPUT_MAX_SIZE) {
+            return;
+        }
+
         if (number === '.' && this.model.currentValue.includes('.')) {
             return;
         }
 
-        if (number === '0' && this.model.currentValue === '0') {
+        const currentValueIsZero = this.model.currentValue === '0' || this.model.currentValue === '-0';
+
+        if (number === '0' && currentValueIsZero) {
             return;
         }
 
@@ -125,7 +143,7 @@ class Controller {
             this.model.setCurrentValue('');
         }
 
-        const value = `${this.model.currentValue}${number}`;
+        const value = `${this.model.currentValue}${number}`; 
         this.model.setCurrentValue(value);
     }
 
@@ -178,24 +196,22 @@ class Controller {
             case OPERATIONS.divide: {
                 return this.calculator.div();
             }
-            default:
+            default: {
                 return;
+            }
         }
     }
 
     updateView() {
-        const input = this.model.currentValue;
+        const formatedCurrentValue = new NumberFormat(this.model.currentValue);
+        const formatedPreviousValue = new NumberFormat(this.model.previousValue);
+
+        const input = formatedCurrentValue.toOutputFormat();
         const operation = this.getOperationLabel(this.model.operation);
-        const history = `${this.model.previousValue} ${operation}`;
-        
+        const history = `${formatedPreviousValue.toOutputFormat()} ${operation}`;
+
         this.view.setInnerText(this.view.input, input);
         this.view.setInnerText(this.view.history, history);
-    }
-
-    clearAll() {
-        this.model.setInitialCurrentValue();
-        this.model.setInitialPreviousValue();
-        this.model.operation = '';
     }
 
     getOperationLabel(value) {
