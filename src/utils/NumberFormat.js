@@ -1,7 +1,7 @@
 class NumberFormat {
     constructor(number) {
         this.number = number;
-        this.formatedNumber = '';
+        this.formatedNumber = number;
     }
 
     toOutputFormat() {
@@ -26,7 +26,7 @@ class NumberFormat {
         return this.formatedNumber;
     }
 
-    toExponentialFormat(number) {
+    toExponentialFormat() {
         const expNumber = Number(this.number).toExponential(EXPONANTIAL_PRECISION).toString();
         const [mantissa, power] = expNumber.split('e');
         this.round(EXPONANTIAL_PRECISION, mantissa);
@@ -35,7 +35,7 @@ class NumberFormat {
     }
 
     setSpaces() {
-        this.formatedNumber = this.number.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+        this.formatedNumber = this.formatedNumber.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
     }
 
     round(decimals, number) {

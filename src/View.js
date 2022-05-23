@@ -78,7 +78,11 @@ class View {
         const baseSize = 50;
 
         const x = Math.floor((textLength - 1) / 3);
-        const fontSize = baseSize - x * 6;
+        let fontSize = baseSize - x * 6;
+
+        if (fontSize < 20) {
+            fontSize = 20;
+        }
         
         return `${fontSize}px`;
     }
