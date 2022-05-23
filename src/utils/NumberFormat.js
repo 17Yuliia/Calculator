@@ -18,7 +18,7 @@ class NumberFormat {
         }
 
         if (floatPart && floatPart.length > NUMBER_PRECISION) {
-            this.round(NUMBER_PRECISION);
+            this.round(NUMBER_PRECISION, this.number);
         }
 
         this.setSpaces();
