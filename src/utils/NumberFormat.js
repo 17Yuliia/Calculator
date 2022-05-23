@@ -27,11 +27,11 @@ class NumberFormat {
     }
 
     toExponentialFormat(number) {
-        const expNumber = Number(number).toExponential(EXPONANTIAL_PRECISION).toString();
+        const expNumber = Number(this.number).toExponential(EXPONANTIAL_PRECISION).toString();
         const [mantissa, power] = expNumber.split('e');
-        const rounded = this.round(EXPONANTIAL_PRECISION, mantissa);
+        this.round(EXPONANTIAL_PRECISION, mantissa);
 
-        this.formatedNumber = `${rounded}e${power}`;
+        this.formatedNumber = `${this.formatedNumber}e${power}`;
     }
 
     setSpaces() {
