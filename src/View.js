@@ -74,7 +74,22 @@ class View {
         }
     }
 
-    setInnerText(element, value) {
+    getFontSize = (textLength) => {
+        const baseSize = 50;
+
+        const x = Math.floor((textLength - 1) / 3);
+        const fontSize = baseSize - x * 6;
+        
+        return `${fontSize}px`;
+    }
+
+    setInnerText(element, value, resetFontSize = false) {
+        if (resetFontSize) {
+            const fontSize = this.getFontSize(value.length);
+
+            element.style.fontSize = fontSize;
+        }
+        
         element.innerText = value;
     }
 

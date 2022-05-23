@@ -12,6 +12,13 @@ const OPERATIONS = {
     divide: '/',
 }
 
+const OPTION_CODES = {
+    sign: 'Sign',
+    enter: 'Enter',
+    escape: 'Escape',
+    backspace: 'Backspace',
+}
+
 const BUTTONS = {
     number0: {
         name: 'number0',
@@ -121,28 +128,28 @@ const BUTTONS = {
     },
     cancel: {
         name: 'cancel',
-        value: 'Escape',
+        value: OPTION_CODES.escape,
         label: 'C',
         option: OPTIONS.action,
         className: 'button keyboard-block__button button_text button_color_lightgray',
     },
     backspace: {
         name: 'backspace',
-        value: 'Backspace',
+        value: OPTION_CODES.backspace,
         label: '🡠',
         option: OPTIONS.action,
         className: 'button keyboard-block__button button_text button_color_lightgray',
     },
     sign: {
         name: 'sign',
-        value: 'Sign',
+        value: OPTION_CODES.sign,
         label: '±',
         option: OPTIONS.action,
         className: 'button keyboard-block__button button_text button_color_lightgray',
     },
     equal: {
         name: 'equal',
-        value: 'Enter',
+        value: OPTION_CODES.enter,
         label: '=',
         option: OPTIONS.equal,
         className: 'button keyboard-block__button button_text button_color_orange',
@@ -164,8 +171,7 @@ const ELEMENT_IDS = {
 }
 
 const SIGNED_VALUES = {
-    '': '-',
-    '-': '',
+    '': '-0',
     '0': '-0',
     '-0': '0',
 }

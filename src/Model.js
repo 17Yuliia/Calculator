@@ -4,29 +4,21 @@ class Model {
     }
 
     resetValues() {
-        this.setInitialCurrentValue();
-        this.setInitialPreviousValue();
+        this.currentValue = '0';
+        this.previousValue = '';
         this.operation = '';
         this.isAfterResult = false;
     }
 
-    setInitialCurrentValue() {
-        this.currentValue = '0';
-    }
-
-    setInitialPreviousValue() {
-        this.previousValue = '';
-    }
-
-    isEmptyCurrentValue() {
-        return this.currentValue === '';
-    }
-
-    isErrorCurrentValue() {
+    checkIsErrorCurrentValue() {
         return this.currentValue === 'ERROR';
     }
 
-    isEmptyPreviousValue() {
+    checkIsEmptyCurrentValue() {
+        return this.currentValue === '';
+    }
+
+    checkIsEmptyPreviousValue() {
         return this.previousValue === '';
     }
 
