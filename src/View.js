@@ -113,8 +113,7 @@ class View {
 
     addKeydownListener(callback) {
         document.addEventListener('keydown', (event) => {
-            event.preventDefault();
-            callback(event.key);
+            callback(event);
         })
     }
 }

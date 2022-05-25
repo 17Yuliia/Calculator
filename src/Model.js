@@ -18,6 +18,10 @@ class Model {
         return this.currentValue === '';
     }
 
+    checkIsInfinityCurrentValue() {
+        return this.currentValue === 'Infinity' || this.currentValue === '-Infinity';
+    }
+
     checkIsEmptyPreviousValue() {
         return this.previousValue === '';
     }

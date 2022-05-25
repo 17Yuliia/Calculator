@@ -34,7 +34,7 @@ class Controller {
     }    
 
     numberButtonsHandler = (number) =>  {
-        if (this.checkIsAfterErrorOrResult()) {
+        if (this.checkResetIsNeeded()) {
             this.model.resetValues();
         }
 
@@ -74,12 +74,15 @@ class Controller {
         this.updateView();
     }
 
-    documentKeydownHandler = (key) => {
+    documentKeydownHandler = (event) => {
+        const key = event.key;
         const button = Object.values(BUTTONS).find((btn) => btn.value === key);
 
         if (!button) {
             return;
         }
+
+        event.preventDefault();
 
         const keyOption = button.option;
 
@@ -106,8 +109,10 @@ class Controller {
         }
     }
 
-    checkIsAfterErrorOrResult() {
-        return this.model.isAfterResult || this.model.checkIsErrorCurrentValue();
+    checkResetIsNeeded() {
+        return this.model.isAfterResult 
+        || this.model.checkIsErrorCurrentValue() 
+        || this.model.checkIsInfinityCurrentValue();
     }
 
     checkIsAnyEmpty() {
@@ -119,7 +124,7 @@ class Controller {
     }
 
     deleteLast() {
-        if (this.checkIsAfterErrorOrResult()) {
+        if (this.checkResetIsNeeded()) {
             this.model.resetValues();
         }
 
@@ -131,7 +136,7 @@ class Controller {
     }
 
     changeSign() {
-        if (this.checkIsAfterErrorOrResult()) {
+        if (this.checkResetIsNeeded()) {
             this.model.resetValues();
         }
 

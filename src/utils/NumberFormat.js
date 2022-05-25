@@ -9,6 +9,10 @@ class NumberFormat {
             return this.number;
         }
 
+        if (this.number === 'Infinity' || this.number === '-Infinity') {
+            return this.number;
+        }
+
         const [intPart, floatPart] = this.number.split('.');
 
         if (Number(this.number) >= Math.pow(10, INPUT_MAX_SIZE)) {
