@@ -1,6 +1,7 @@
 class Model {
     constructor() {
         this.resetValues();
+        this.resetMemoryValue();
     }
 
     resetValues() {
@@ -8,6 +9,10 @@ class Model {
         this.previousValue = '';
         this.operation = '';
         this.isAfterResult = false;
+    }
+
+    resetMemoryValue() {
+        this.memoryValue = '0';
     }
 
     checkIsErrorCurrentValue() {
@@ -36,5 +41,9 @@ class Model {
 
     setPreviousValue(value) {
         this.previousValue = value;
+    }
+
+    setMemoryValue(value) {
+        this.memoryValue = value || '0';
     }
 }

@@ -3,19 +3,22 @@ class View {
         this.equal = null;
         this.numbers = [];
         this.actions = [];
+        this.memories = [];
         this.operations = [];
     }
 
-    init(currentValue, previousValue) {
-        this.initDisplay(currentValue, previousValue);
+    init(currentValue, previousValue, memoryValue) {
+        this.initDisplay(currentValue, previousValue, memoryValue);
         this.initButtons();       
     }    
 
-    initDisplay(currentValue, previousValue) {
+    initDisplay(currentValue, previousValue, memoryValue) {
         this.input = document.getElementById(ELEMENT_IDS.input);
+        this.memory = document.getElementById(ELEMENT_IDS.memory);
         this.history = document.getElementById(ELEMENT_IDS.history);
 
         this.setInnerText(this.input, currentValue);
+        this.setInnerText(this.memory, memoryValue);
         this.setInnerText(this.history, previousValue);
     }
 
@@ -62,6 +65,14 @@ class View {
             }
             case OPTIONS.action: {
                 this.actions.push(button);
+                break;
+            }
+            case OPTIONS.memory: {
+                this.memories.push(button);
+                break;
+            }
+            case OPTIONS.copy: {
+                this.copy = button;
                 break;
             }
             case OPTIONS.operation: {

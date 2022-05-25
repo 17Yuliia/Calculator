@@ -19,10 +19,11 @@ body {
 }
 
 .wrapper_size_iphone {
+    position: relative;
     margin: auto;
     width: 304px;
     height: 640px;
-    padding: 50px 16px;
+    padding: 20px 16px;
     box-sizing: border-box;
     border-radius: 40px;
 }
@@ -34,10 +35,9 @@ body {
     align-items: flex-end;
 }
 
-.wrapper__diaplay-block {
+.wrapper__display-block {
     width: 100%;
-    height: 180px;
-    padding: 10px 0px;
+    height: 200px;
     box-sizing: border-box;
 }
 
@@ -51,13 +51,12 @@ body {
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
-    height: 356px;
-    padding: 10px 0px;
+    height: 396px;
     box-sizing: border-box;
 }
 
 .display-block__input {
-    font-size: 45px;
+    font-size: 50px;
     padding: 0px 15px;
     box-sizing: border-box;
     width: 100%;
@@ -73,6 +72,8 @@ body {
     padding: 0px 20px;
     box-sizing: border-box;
     width: 100%;
+    height: 30px;
+    min-height: 30px;
     overflow-wrap: break-word;
     text-align: right;
     color: #b7b7b7;
@@ -140,10 +141,41 @@ body {
     color: #ffa200;
 }
 
+.button_color_black {
+    background-color: #000000;
+    color: white;
+    transition: 0s;
+}
+
+.button_color_black:active {
+    color:#ffa200;
+}
+
 .button_doublewidth {
     width: 128px;
     text-align: left;
     padding-left: 31px;
+}
+
+.button_size_small {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+    line-height: 20px;
+    margin: 3px;
+}
+
+.button_copy {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-image: url('./copy.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 55%;
 }
 
 .bold {

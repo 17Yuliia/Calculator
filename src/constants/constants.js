@@ -1,7 +1,9 @@
 const OPTIONS = {
+    copy: 'copy',
     equal: 'equal',
     number: 'number',
     action: 'action',
+    memory: 'memory',
     operation: 'operation',
 }
 
@@ -10,6 +12,14 @@ const OPERATIONS = {
     minus: '-',
     multiply: '*',
     divide: '/',
+}
+
+const MEMORY_ACTIONS = {
+    mRead: 'mRead',
+    mSave: 'mSave',
+    mPlus: 'mPlus',
+    mClear: 'mClear',
+    mMinus: 'mMinus',
 }
 
 const OPTION_CODES = {
@@ -154,18 +164,63 @@ const BUTTONS = {
         option: OPTIONS.equal,
         className: 'button keyboard-block__button button_text button_color_orange',
     },
+    mClear: {
+        name: 'mClear',
+        value: MEMORY_ACTIONS.mClear,
+        label: 'MC',
+        option: OPTIONS.memory,
+        className: 'button keyboard-block__button button_text button_color_black button_size_small',
+    },
+    mRead: {
+        name: 'mRead',
+        value: MEMORY_ACTIONS.mRead,
+        label: 'MR',
+        option: OPTIONS.memory,
+        className: 'button keyboard-block__button button_text button_color_black button_size_small',
+    },
+    mSave: {
+        name: 'mSave',
+        value: MEMORY_ACTIONS.mSave,
+        label: 'MS',
+        option: OPTIONS.memory,
+        className: 'button keyboard-block__button button_text button_color_black button_size_small',
+    },
+    mPlus: {
+        name: 'mPlus',
+        value: MEMORY_ACTIONS.mPlus,
+        label: 'M+',
+        option: OPTIONS.memory,
+        className: 'button keyboard-block__button button_text button_color_black button_size_small',
+    },
+    mMinus: {
+        name: 'mMinus',
+        value: MEMORY_ACTIONS.mMinus,
+        label: 'M-',
+        option: OPTIONS.memory,
+        className: 'button keyboard-block__button button_text button_color_black button_size_small',
+    },
+    copy: {
+        name: 'copy',
+        value: 'copy',
+        label: '',
+        option: OPTIONS.copy,
+        className: 'button keyboard-block__button button_copy button_color_darkgray',
+    }
 }
 
 const BUTTONS_SEQUANCE = [
+    'mClear', 'mRead', 'mSave', 'mPlus', 'mMinus',
     'cancel', 'backspace', 'sign', 'divide',
     'number7', 'number8', 'number9', 'multiply',
     'number4', 'number5', 'number6', 'minus',
     'number1', 'number2', 'number3', 'plus',
-    'number0', 'point', 'equal'
+    'number0', 'point', 'equal',
+    'copy',
 ]
 
 const ELEMENT_IDS = {
     input: 'input',
+    memory: 'memory',
     history: 'history',
     keyboard: 'keyboard',
 }

@@ -6,7 +6,11 @@ class Controller {
     }
   
     init() {
-        this.view.init(this.model.currentValue, this.model.previousValue);
+        this.view.init(
+            this.model.currentValue, 
+            this.model.previousValue,
+            this.model.memoryValue
+        );
 
         this.addListeners();
     }
@@ -14,10 +18,12 @@ class Controller {
     addListeners() {
         this.view.addKeydownListener(this.documentKeydownHandler);
 
+        this.view.addListenerForElement(this.view.copy, this.copyButtonHandler);
         this.view.addListenerForElement(this.view.equal, this.equalButtonHandler);
 
         this.view.addListenerForElements(this.view.actions, this.actionButtonsHandler)
         this.view.addListenerForElements(this.view.numbers, this.numberButtonsHandler);
+        this.view.addListenerForElements(this.view.memories, this.memoryButtonHandler);
         this.view.addListenerForElements(this.view.operations, this.operationButtonsHandler);
     }
 
@@ -68,12 +74,47 @@ class Controller {
         this.updateView();
     }
 
+    memoryButtonHandler = (action) => {
+        switch (action) {
+            case MEMORY_ACTIONS.mRead: {
+                this.model.setCurrentValue(this.model.memoryValue);
+                this.updateView();
+                break;
+            }
+            case MEMORY_ACTIONS.mSave: {
+                this.model.setMemoryValue(this.model.currentValue);
+                break;
+            }
+            case MEMORY_ACTIONS.mClear: {
+                this.model.resetMemoryValue();
+                break;
+            }
+            case MEMORY_ACTIONS.mPlus: {
+                this.sumToMemory();
+                break;
+            }
+            case MEMORY_ACTIONS.mMinus: {
+                this.subFromMemory();
+                break;
+            }
+            default: {
+                return;
+            }
+        }
+
+        this.updateMemory();
+    }
+
     operationButtonsHandler = (operation) => {
         this.model.isAfterResult = false;
         this.chooseOperation(operation);
         this.updateView();
     }
 
+    copyButtonHandler = () => {
+        navigator.clipboard.writeText(this.model.currentValue);
+    }
+    
     documentKeydownHandler = (event) => {
         const key = event.key;
         const button = Object.values(BUTTONS).find((btn) => btn.value === key);
@@ -172,6 +213,18 @@ class Controller {
         this.model.setCurrentValue(value);
     }
 
+    sumToMemory() {
+        this.setCalculatorValues(this.model.memoryValue, this.model.currentValue);
+        const result = this.calculator.sum();
+        this.model.setMemoryValue(result.toString());
+    }
+
+    subFromMemory() {
+        this.setCalculatorValues(this.model.memoryValue, this.model.currentValue);
+        const result = this.calculator.sub();
+        this.model.setMemoryValue(result.toString());
+    }
+
     chooseOperation(operation) {
         const isEmptyCurrent = this.model.checkIsEmptyCurrentValue();
         const isEmptyPrevious = this.model.checkIsEmptyPreviousValue();
@@ -196,17 +249,18 @@ class Controller {
     }
 
     compute() {
-        const current = +this.model.currentValue;
-        const previous = +this.model.previousValue;
-
-        this.calculator.setX(previous);
-        this.calculator.setY(current);
+        this.setCalculatorValues(this.model.previousValue, this.model.currentValue);
 
         const result = this.makeOperation();
 
         this.model.setCurrentValue(result.toString());
         this.model.setPreviousValue('');
         this.model.operation = '';
+    }
+
+    setCalculatorValues(x, y) {
+        this.calculator.setX(+x);
+        this.calculator.setY(+y);
     }
 
     makeOperation() {
@@ -230,15 +284,35 @@ class Controller {
     }
 
     updateView() {
-        const formatedCurrentValue = new NumberFormat(this.model.currentValue);
-        const formatedPreviousValue = new NumberFormat(this.model.previousValue);
+        this.updateInput();
+        this.updateHistory();
+        this.updateMemory();
+    }
 
-        const input = formatedCurrentValue.toOutputFormat();
+    updateInput() {
+        const formatedCurrentValue = this.getFormatedNumber(this.model.currentValue);
+
+        this.view.setInnerText(this.view.input, formatedCurrentValue, true);
+    }
+
+    updateHistory() {
+        const formatedPreviousValue = this.getFormatedNumber(this.model.previousValue);
         const operation = this.getOperationLabel(this.model.operation);
-        const history = `${formatedPreviousValue.toOutputFormat()} ${operation}`;
+        const formatedHistory = `${formatedPreviousValue} ${operation}`;
 
-        this.view.setInnerText(this.view.input, input, true);
-        this.view.setInnerText(this.view.history, history);
+        this.view.setInnerText(this.view.history, formatedHistory);
+    }
+
+    updateMemory() {
+        const formatedMemoryValue = this.getFormatedNumber(this.model.memoryValue);
+
+        this.view.setInnerText(this.view.memory, formatedMemoryValue);
+    }
+
+    getFormatedNumber(number) {
+        const numberEntity = new NumberFormat(number);
+
+        return numberEntity.toOutputFormat();
     }
 
     getOperationLabel(value) {
