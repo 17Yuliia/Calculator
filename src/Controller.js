@@ -6,12 +6,9 @@ class Controller {
     }
   
     init() {
-        this.view.init(
-            this.model.currentValue, 
-            this.model.previousValue,
-            this.model.memoryValue
-        );
+        this.view.init();
 
+        this.updateView();
         this.addListeners();
     }
 
@@ -44,7 +41,9 @@ class Controller {
             this.model.resetValues();
         }
 
-        if (this.model.currentValue.length >= INPUT_MAX_SIZE) {
+        const length = NumberFormat.getNumberCount(this.model.currentValue);
+
+        if (length >= INPUT_MAX_SIZE) {
             return;
         }
 
@@ -177,17 +176,20 @@ class Controller {
     }
 
     changeSign() {
-        if (this.checkResetIsNeeded()) {
+        if (this.checkResetIsNeeded() && isNaN(this.model.currentValue)) {
             this.model.resetValues();
         }
 
-        let signedValue = `${this.model.currentValue * -1}`;
-
-        if (this.model.currentValue in SIGNED_VALUES) {
-            signedValue = SIGNED_VALUES[this.model.currentValue];
+        if (this.model.checkIsEmptyCurrentValue()) {
+            this.model.setCurrentValue('0');
         }
 
-        this.model.setCurrentValue(signedValue);
+        if (this.model.currentValue.includes('-')) {
+            this.model.removeFirstFromCurrentValue();
+            return;
+        } 
+        
+        this.model.setCurrentValue(`-${this.model.currentValue}`);
     }
 
     addNumber(number) {
@@ -286,6 +288,7 @@ class Controller {
     updateView() {
         this.updateInput();
         this.updateHistory();
+        this.updateOperation();
         this.updateMemory();
     }
 
@@ -296,11 +299,15 @@ class Controller {
     }
 
     updateHistory() {
-        const formatedPreviousValue = this.getFormatedNumber(this.model.previousValue);
-        const operation = this.getOperationLabel(this.model.operation);
-        const formatedHistory = `${formatedPreviousValue} ${operation}`;
+        const formatedHistory = this.getFormatedNumber(this.model.previousValue);
 
         this.view.setInnerText(this.view.history, formatedHistory);
+    }
+
+    updateOperation() {
+        const operation = this.getOperationLabel(this.model.operation);
+
+        this.view.setInnerText(this.view.operation, operation);
     }
 
     updateMemory() {

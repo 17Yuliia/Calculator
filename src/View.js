@@ -7,19 +7,16 @@ class View {
         this.operations = [];
     }
 
-    init(currentValue, previousValue, memoryValue) {
-        this.initDisplay(currentValue, previousValue, memoryValue);
+    init() {
+        this.initDisplay();
         this.initButtons();       
     }    
 
-    initDisplay(currentValue, previousValue, memoryValue) {
+    initDisplay() {
         this.input = document.getElementById(ELEMENT_IDS.input);
         this.memory = document.getElementById(ELEMENT_IDS.memory);
         this.history = document.getElementById(ELEMENT_IDS.history);
-
-        this.setInnerText(this.input, currentValue);
-        this.setInnerText(this.memory, memoryValue);
-        this.setInnerText(this.history, previousValue);
+        this.operation = document.getElementById(ELEMENT_IDS.operation);
     }
 
     initButtons() {
@@ -89,10 +86,10 @@ class View {
         const baseSize = 50;
 
         const x = Math.floor((textLength - 1) / 3);
-        let fontSize = baseSize - x * 6;
+        let fontSize = baseSize - x * 8;
 
-        if (fontSize < 20) {
-            fontSize = 20;
+        if (fontSize < 21) {
+            fontSize = 21;
         }
         
         return `${fontSize}px`;
@@ -100,7 +97,8 @@ class View {
 
     setInnerText(element, value, resetFontSize = false) {
         if (resetFontSize) {
-            const fontSize = this.getFontSize(value.length);
+            const length = NumberFormat.getNumberCount(value);
+            const fontSize = this.getFontSize(length);
 
             element.style.fontSize = fontSize;
         }

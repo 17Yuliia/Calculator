@@ -223,12 +223,7 @@ const ELEMENT_IDS = {
     memory: 'memory',
     history: 'history',
     keyboard: 'keyboard',
-}
-
-const SIGNED_VALUES = {
-    '': '-0',
-    '0': '-0',
-    '-0': '0',
+    operation: 'operation',
 }
 
 const INPUT_MAX_SIZE = 9;

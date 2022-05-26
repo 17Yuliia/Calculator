@@ -15,7 +15,7 @@ class NumberFormat {
 
         const [intPart, floatPart] = this.number.split('.');
 
-        if (Number(this.number) >= Math.pow(10, INPUT_MAX_SIZE)) {
+        if (Math.abs(Number(this.number)) >= Math.pow(10, INPUT_MAX_SIZE)) {
             this.toExponentialFormat();
 
             return this.formatedNumber;
@@ -47,5 +47,9 @@ class NumberFormat {
         const result = Math.round(Number(number) * power) / power;
 
         this.formatedNumber = result.toString();
+    }
+
+    static getNumberCount(text) {
+        return text.replace(/[^0-9]/g,"").length;
     }
 }

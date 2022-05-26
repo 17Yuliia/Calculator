@@ -35,6 +35,10 @@ class Model {
         this.currentValue = this.currentValue.slice(0, -1);
     }
 
+    removeFirstFromCurrentValue() {
+        this.currentValue = this.currentValue.slice(1);
+    }
+
     setCurrentValue(value) {
         this.currentValue = value;
     }
@@ -44,6 +48,10 @@ class Model {
     }
 
     setMemoryValue(value) {
+        if (isNaN(value)) {
+            return;
+        }
+
         this.memoryValue = value || '0';
     }
 }
