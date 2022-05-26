@@ -3,17 +3,13 @@ body {
     color: white;
     font-family: 'Inter', sans-serif;
     background-image: url('./iphone.png');
-    background-size: 580px;
+    background-size: 460px;
     background-repeat: no-repeat;
     background-position: center 10px;
-    padding-top: 34px;
+    padding-top: 26px;
     height: 100vh;
     box-sizing: border-box;
     margin: 0;
-}
-
-.preload *{
-    transition: none !important;
 }
 
 .wrapper {
@@ -23,10 +19,11 @@ body {
 }
 
 .wrapper_size_iphone {
+    position: relative;
     margin: auto;
-    width: 380px;
-    height: 800px;
-    padding: 50px 20px;
+    width: 304px;
+    height: 640px;
+    padding: 20px 16px;
     box-sizing: border-box;
     border-radius: 40px;
 }
@@ -38,26 +35,10 @@ body {
     align-items: flex-end;
 }
 
-.wrapper__diaplay-block {
-    width: 340px;
-    height: 255px;
-    padding: 10px 0px;
+.wrapper__display-block {
+    width: 100%;
+    height: 200px;
     box-sizing: border-box;
-}
-
-.display-block__history::-webkit-scrollbar {
-  width: 5px;
-  height: 8px;
-}
-
-.display-block__history::-webkit-scrollbar-track {
-  background-color: rgba(0, 0, 0, 0.4);
-  border-radius: 10px;
-}
-
-.display-block__history::-webkit-scrollbar-thumb {
-  background-color: #353535;
-  border-radius: 10px;
 }
 
 .keyboard-block {
@@ -66,28 +47,36 @@ body {
 }
 
 .wrapper__keyboard-block {
-    width: 340px;
-    height: 445px;
-    padding: 10px 0px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 396px;
     box-sizing: border-box;
 }
 
 .display-block__input {
     font-size: 50px;
-    padding: 0px 20px;
+    padding-right: 7px;
     box-sizing: border-box;
-    width: 340px;
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
     text-align: right;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .display-block__history {
-    font-size: 25px;
-    padding: 0px 20px;
+    font-size: 21px;
+    padding-right: 7px;
     box-sizing: border-box;
-    width: 340px;
+    width: 100%;
+    height: 25px;
+    min-height: 25px;
+    line-height: 25px;
     overflow-wrap: break-word;
     text-align: right;
-    overflow-y: scroll;
     color: #b7b7b7;
 }
 
@@ -99,15 +88,6 @@ body {
     flex-direction: column;
 }
 
-.row {
-    display: flex;    
-}
-
-.keyboard-block__row {
-    width: 100%;
-    height: 85px;    
-}
-
 .button {
     outline: none;
     border: none;
@@ -116,16 +96,16 @@ body {
 }
 
 .button_text {
-    line-height: 80px;
-    font-size: 37px;
+    line-height: 60px;
+    font-size: 30px;
     text-align: center;
 }
 
 .keyboard-block__button {
-    width: 75px;
-    height: 75px;
-    margin: 5px;
-    border-radius: 40px;
+    width: 60px;
+    height: 60px;
+    margin: 4px;
+    border-radius: 30px;
 }
 
 .button:hover {
@@ -162,10 +142,41 @@ body {
     color: #ffa200;
 }
 
+.button_color_black {
+    background-color: #000000;
+    color: white;
+    transition: 0s;
+}
+
+.button_color_black:active {
+    color:#ffa200;
+}
+
 .button_doublewidth {
-    width: 160px;
+    width: 128px;
     text-align: left;
     padding-left: 31px;
+}
+
+.button_size_small {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+    line-height: 20px;
+    margin: 3px;
+}
+
+.button_copy {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-image: url('./copy.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 55%;
 }
 
 .bold {

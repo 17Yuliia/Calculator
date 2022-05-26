@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./public/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com"> 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -12,43 +12,21 @@
 </head>
 <body class="preload">
     <div class="wrapper wrapper_size_iphone">
-        <div class="display-block wrapper__diaplay-block">
+        <div class="display-block wrapper__display-block">
+            <!-- <div class="display-block__copy button_color_darkgray" id="copy"></div> -->
             <div class="display-block__history" id="history"></div>
-            <div class="display-block__input" id="input">0</div>
+            <div class="display-block__history" id="operation"></div>
+            <div class="display-block__input" id="input"></div>
+            <div class="display-block__history" id="memory"></div>
         </div>
-        <div class="keyboard-block wrapper__keyboard-block">
-            <div class="row keyboard-block__row">
-                <button class="button keyboard-block__button button_text button_color_lightgray" option="cancel">C</button>
-                <button class="button keyboard-block__button button_text button_color_lightgray" option="backspace">🡠</button>
-                <button class="button keyboard-block__button button_text button_color_lightgray" option="operator">%</button>
-                <button class="button keyboard-block__button button_text button_color_orange" option="operator">÷</button>
-            </div> 
-            <div class="row keyboard-block__row"> 
-                <button class="button keyboard-block__button button_text button_color_darkgray"option="number">7</button>
-                <button class="button keyboard-block__button button_text button_color_darkgray"option="number">8</button>
-                <button class="button keyboard-block__button button_text button_color_darkgray"option="number">9</button>
-                <button class="button keyboard-block__button button_text button_color_orange"option="operator">×</button>
-            </div> 
-            <div class="row keyboard-block__row"> 
-                <button class="button keyboard-block__button button_text button_color_darkgray"option="number">4</button>
-                <button class="button keyboard-block__button button_text button_color_darkgray"option="number">5</button>
-                <button class="button keyboard-block__button button_text button_color_darkgray"option="number">6</button>
-                <button class="button keyboard-block__button button_text button_color_orange"option="operator">-</button>
-            </div> 
-            <div class="row keyboard-block__row"> 
-                <button class="button keyboard-block__button button_text button_color_darkgray"option="number">1</button>
-                <button class="button keyboard-block__button button_text button_color_darkgray"option="number">2</button>
-                <button class="button keyboard-block__button button_text button_color_darkgray"option="number">3</button>
-                <button class="button keyboard-block__button button_text button_color_orange"option="operator">+</button>
-            </div> 
-            <div class="row keyboard-block__row"> 
-                <button class="button keyboard-block__button button_text button_color_darkgray button_doublewidth" option="number">0</button>
-                <button class="button keyboard-block__button button_text button_color_darkgray" option="coma">.</button>
-                <button class="button keyboard-block__button button_text button_color_orange" option="result">=</button>
-            </div>
-        </div>
+        <div class="keyboard-block wrapper__keyboard-block" id="keyboard"></div>
     </div>
+    <script src="./src/constants/constants.js"></script>
+    <script src="./src/utils/NumberFormat.js"></script>
+    <script src="./src/utils/Calculator.js"></script>
+    <script src="./src/Model.js"></script>
+    <script src="./src/View.js"></script>
+    <script src="./src/Controller.js"></script>
+    <script src="./index.js"></script>
 </body>
-<script src="./calculator.js"></script> 
-<script src="./calculator_logic.js"></script>
 </html>
