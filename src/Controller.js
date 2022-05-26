@@ -216,12 +216,20 @@ class Controller {
     }
 
     sumToMemory() {
+        if (this.model.checkIsErrorCurrentValue()) {
+            return;
+        }
+
         this.setCalculatorValues(this.model.memoryValue, this.model.currentValue);
         const result = this.calculator.sum();
         this.model.setMemoryValue(result.toString());
     }
 
     subFromMemory() {
+        if (this.model.checkIsErrorCurrentValue()) {
+            return;
+        }
+        
         this.setCalculatorValues(this.model.memoryValue, this.model.currentValue);
         const result = this.calculator.sub();
         this.model.setMemoryValue(result.toString());
